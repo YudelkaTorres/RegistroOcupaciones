@@ -12,7 +12,7 @@ interface EmpleadoDao {
     fun observeAll(): Flow<List<EmpleadoEntity>>
 
     @Query(value = "SELECT *FROM empleados WHERE empleadoId = :id")
-    fun getById(id: Int): EmpleadoEntity?
+    suspend fun getById(id: Int): EmpleadoEntity?
 
     @Upsert
     suspend fun upsert(empleado: EmpleadoEntity) : Long

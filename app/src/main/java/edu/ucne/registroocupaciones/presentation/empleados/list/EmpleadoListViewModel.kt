@@ -3,8 +3,8 @@ package edu.ucne.registroocupaciones.presentation.empleados.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.ucne.registroocupaciones.domain.empleados.usecase.ObserveEmpleadoUseCase
 import edu.ucne.registroocupaciones.domain.empleados.usecase.DeleteEmpleadoUseCase
+import edu.ucne.registroocupaciones.domain.empleados.usecase.ObserveEmpleadoUseCase
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,8 +13,9 @@ import javax.inject.Inject
 class EmpleadoListViewModel @Inject constructor(
     private val observeEmpleadosUseCase: ObserveEmpleadoUseCase,
     private val deleteEmpleadoUseCase: DeleteEmpleadoUseCase
-): ViewModel() {
-    private val _state = MutableStateFlow(EmpleadoListUiState(isLoading = true))
+) : ViewModel() {
+
+    private val _state = MutableStateFlow(EmpleadoListUiState())
     val state: StateFlow<EmpleadoListUiState> = _state.asStateFlow()
 
     init {
@@ -40,22 +41,20 @@ class EmpleadoListViewModel @Inject constructor(
             EmpleadoListUiEvent.NavigationConsumed ->
                 _state.update {
                     it.copy(
-                        navigateToEditId = null,
-                        navigateToCreate = false
+                        navigateToCreate = false,
+                        navigateToEditId = null
                     )
                 }
         }
     }
-    fun loadEmpleados() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
 
-            observeEmpleadosUseCase().collectLatest { list ->
+    private fun loadEmpleados() {
+        viewModelScope.launch {
+            observeEmpleadosUseCase().collectLatest { lista ->
                 _state.update {
                     it.copy(
-                        isLoading = false,
-                        empleados = list,
-                        errorMessage = null
+                        empleados = lista,
+                        isLoading = false
                     )
                 }
             }
@@ -65,7 +64,6 @@ class EmpleadoListViewModel @Inject constructor(
     private fun onDelete(id: Int) {
         viewModelScope.launch {
             deleteEmpleadoUseCase(id)
-            onEvent(EmpleadoListUiEvent.ShowMessage("Eliminado"))
         }
     }
 }
