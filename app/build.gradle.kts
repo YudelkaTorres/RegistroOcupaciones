@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 
     id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android") version "2.57.1"
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -77,4 +77,18 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    // Unit testing
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    // Hilt testing
+    testImplementation("com.google.dagger:hilt-android-testing:2.57.1")
+    kspTest("com.google.dagger:hilt-compiler:2.57")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.57.1")
+    kspAndroidTest("com.google.dagger:hilt-compiler:2.57.1")
+
+    // Room testing
+    testImplementation("androidx.room:room-testing:2.8.4")
 }

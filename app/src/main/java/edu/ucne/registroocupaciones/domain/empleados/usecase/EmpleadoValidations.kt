@@ -24,7 +24,7 @@ object EmpleadoValidations {
     }
 
     fun validateSexo(value: String): ValidationResult {
-        return if (value == null)
+        return if (value.isBlank())
             ValidationResult(false, "Debe seleccionar el sexo")
         else
             ValidationResult(true)
