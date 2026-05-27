@@ -12,6 +12,8 @@ import edu.ucne.registroocupaciones.presentation.ocupaciones.edit.OcupacionEditS
 import edu.ucne.registroocupaciones.presentation.ocupaciones.list.OcupacionListScreen
 import edu.ucne.registroocupaciones.presentation.empleados.edit.EmpleadoEditScreen
 import edu.ucne.registroocupaciones.presentation.empleados.list.EmpleadoListScreen
+import edu.ucne.registroocupaciones.presentation.horasExtras.edit.HoraExtraEditScreen
+import edu.ucne.registroocupaciones.presentation.horasExtras.list.HoraExtraListScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -86,6 +88,40 @@ fun RegistroNavHost(
                     },
                     onDrawer = {
                         scope.launch { drawerState.open() }
+                    }
+                )
+            }
+
+            composable<Screen.HoraExtraList> {
+
+                HoraExtraListScreen(
+                    onDrawer = {
+                        scope.launch { drawerState.open() }
+                    },
+                    onAddHoraExtra = {
+                        navHostController.navigate(
+                            Screen.HoraExtraEdit()
+                        )
+                    },
+                    onNavigateToEdit = { id ->
+                        navHostController.navigate(
+                            Screen.HoraExtraEdit(id)
+                        )
+                    }
+                )
+            }
+
+            composable<Screen.HoraExtraEdit> {
+
+                HoraExtraEditScreen(
+                    onBack = {
+                        navHostController.navigate(Screen.HoraExtraList)
+                    },
+
+                    onDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
                     }
                 )
             }
