@@ -13,7 +13,10 @@ import edu.ucne.registroocupaciones.domain.ocupaciones.repository.OcupacionRepos
 import edu.ucne.registroocupaciones.data.ocupaciones.repository.OcupacionRepositoryImpl
 import edu.ucne.registroocupaciones.data.empleados.local.dao.EmpleadoDao
 import edu.ucne.registroocupaciones.data.empleados.repository.EmpleadoRepositoryImpl
+import edu.ucne.registroocupaciones.data.horasExtras.local.dao.HoraExtraDao
+import edu.ucne.registroocupaciones.data.horasExtras.repository.HoraExtraRepositoryImpl
 import edu.ucne.registroocupaciones.domain.empleados.repository.EmpleadoRepository
+import edu.ucne.registroocupaciones.domain.horasExtras.repository.HoraExtraRepository
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -27,7 +30,8 @@ object AppModule {
             appContext,
             OcupacionDb::class.java,
             "OcupacionDb"
-        ).fallbackToDestructiveMigration(false)
+        )
+            .fallbackToDestructiveMigration(true)
             .build()
     }
 
@@ -68,6 +72,28 @@ object AppModule {
     fun provideEmpleadoRepository(
         impl: EmpleadoRepositoryImpl
     ): EmpleadoRepository {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    fun provideHoraExtraDao(db: OcupacionDb
+    ): HoraExtraDao{
+        return db.horaExtraDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHoraExtraRepositoryImpl( horaExtraDao: HoraExtraDao
+    ): HoraExtraRepositoryImpl {
+        return HoraExtraRepositoryImpl(horaExtraDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHoraExtraRepository(
+        impl: HoraExtraRepositoryImpl
+    ): HoraExtraRepository{
         return impl
     }
 }
