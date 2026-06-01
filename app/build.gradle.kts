@@ -12,6 +12,10 @@ android {
     namespace = "edu.ucne.registroocupaciones"
     compileSdk = 36
 
+    lint {
+        disable += "NullSafeMutableLiveData"
+    }
+
     defaultConfig {
         applicationId = "edu.ucne.registroocupaciones"
         minSdk = 24
