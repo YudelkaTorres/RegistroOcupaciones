@@ -67,20 +67,39 @@ class OcupacionEditViewModel @Inject constructor(
 
     private fun onLoad(id: Int?) {
         if (id == null || id == 0) {
-            _state.update { it.copy(isNew = true, ocupacionId = null) }
+            _state.update {
+                it.copy(isNew = true,
+                    ocupacionId = null,
+                    descripcion = "",
+                    sueldo = null,
+                    saved = false,
+                    deleted = false
+                )
+            }
             return
         }
 
         viewModelScope.launch {
             val ocupacion = getOcupacionUseCase(id)
 
-            ocupacion?.let { item ->
+            if (ocupacion != null) {
                 _state.update { currentState ->
                     currentState.copy(
                         isNew = false,
-                        ocupacionId = item.ocupacionId,
-                        descripcion = item.descripcion,
-                        sueldo = item.sueldo
+                        ocupacionId = ocupacion.ocupacionId,
+                        descripcion = ocupacion.descripcion,
+                        sueldo = ocupacion.sueldo,
+                        saved = false,
+                        deleted = false
+                    )
+                }
+            } else {
+                _state.update {
+                    it.copy(
+                        isNew = true,
+                        ocupacionId = null,
+                        saved = false,
+                        deleted = false
                     )
                 }
             }

@@ -22,9 +22,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun OcupacionEditScreen(
     ocupacionId: Int?,
+    canNavigateBack: Boolean = true,
     viewModel: OcupacionEditViewModel = hiltViewModel(),
-    goBack: () -> Unit,
-    onDrawer: () -> Unit
+    goBack: () -> Unit
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
@@ -32,17 +32,17 @@ fun OcupacionEditScreen(
         viewModel.onEvent(OcupacionEditUiEvent.Load(ocupacionId))
     }
 
-    if (uiState.saved || uiState.deleted) {
-        SideEffect {
-            goBack()
+    LaunchedEffect(uiState.saved, uiState.deleted) {
+        if (uiState.saved || uiState.deleted) {
+                goBack()
         }
     }
 
     OcupacionEditScreen(
         uiState = uiState,
+        canNavigateBack = canNavigateBack,
         onEvent = viewModel::onEvent,
-        goBack = goBack,
-        onDrawer = onDrawer
+        goBack = goBack
     )
 }
 
@@ -50,22 +50,19 @@ fun OcupacionEditScreen(
 @Composable
 fun OcupacionEditScreen(
     uiState: OcupacionEditUiState,
+    canNavigateBack: Boolean,
     onEvent: (OcupacionEditUiEvent) -> Unit,
-    goBack: () -> Unit,
-    onDrawer: () -> Unit
+    goBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(if (uiState.isNew) "Nueva Ocupación" else "Editar Ocupación") },
-                navigationIcon = {
-                    IconButton(onClick = onDrawer) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                },
                 actions = {
-                    IconButton(onClick = goBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
+                    if (canNavigateBack) {
+                        IconButton(onClick = goBack) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
+                        }
                     }
                 }
             )
@@ -139,9 +136,9 @@ fun OcupacionEditPreview() {
     MaterialTheme {
         OcupacionEditScreen(
             uiState = OcupacionEditUiState(descripcion = "Ingeniero", sueldo = 50000.0),
+            canNavigateBack = true,
             onEvent = {},
             goBack = {},
-            onDrawer = {}
         )
     }
 }

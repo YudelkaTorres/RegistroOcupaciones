@@ -49,11 +49,6 @@ private fun OcupacionListBody(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("Listado de Ocupaciones") },
-                navigationIcon = {
-                    IconButton(onClick = onDrawer) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                }
             )
         },
         floatingActionButton = {
