@@ -52,6 +52,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material3.window.size.class1)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
@@ -61,6 +62,7 @@ dependencies {
     // navegación
     implementation("androidx.navigation:navigation-compose:2.8.5")
     implementation(libs.androidx.ui)
+    implementation(libs.generativeai)
     implementation(libs.kotlin.serialization.json)
 
     // room
@@ -70,6 +72,9 @@ dependencies {
 
     // material Icons Extended
     implementation("androidx.compose.material:material-icons-extended")
+
+    // Material3 adaptive
+    implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.3.0")
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.57.1")
@@ -83,6 +88,11 @@ dependencies {
     // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // Adaptive Layout
+    implementation("androidx.compose.material3.adaptive:adaptive:1.1.0")
+    implementation("androidx.compose.material3.adaptive:adaptive-layout:1.1.0")
+    implementation("androidx.compose.material3.adaptive:adaptive-navigation:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
