@@ -12,6 +12,11 @@ android {
     namespace = "edu.ucne.registroocupaciones"
     compileSdk = 36
 
+    lint {
+        disable += "NullSafeMutableLiveData"
+        disable += "FlowOperatorInvokedInComposition"
+    }
+
     defaultConfig {
         applicationId = "edu.ucne.registroocupaciones"
         minSdk = 24
@@ -55,6 +60,7 @@ dependencies {
 
     // navegación
     implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation(libs.androidx.ui)
     implementation(libs.kotlin.serialization.json)
 
     // room
@@ -69,6 +75,14 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.57.1")
     ksp("com.google.dagger:hilt-android-compiler:2.57.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

@@ -68,6 +68,16 @@ fun DrawerMenu(
                                 navigate(Screen.EmpleadoList, "Empleados")
                             }
                         )
+
+                        NavigationDrawerItem(
+                            label = { Text("Horas Extras") },
+                            selected =
+                                selectedItem.value == "Horas Extras",
+                            icon = { Icon(Icons.Default.Badge, contentDescription = null) },
+                            onClick = {
+                                navigate(Screen.HoraExtraList, "Horas Extras")
+                            }
+                        )
                     }
                 }
             }
