@@ -14,4 +14,6 @@ sealed class HoraExtraListUiEvent {
     object CreateNew : HoraExtraListUiEvent()
 
     data class Edit(val id: Int) : HoraExtraListUiEvent()
+
+    object ClearNavigation : HoraExtraListUiEvent()
 }

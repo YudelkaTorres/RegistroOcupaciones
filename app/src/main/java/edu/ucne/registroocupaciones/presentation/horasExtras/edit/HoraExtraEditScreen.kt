@@ -26,9 +26,10 @@ import edu.ucne.registroocupaciones.presentation.empleados.edit.EmpleadoEditUiEv
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HoraExtraEditScreen(
+    horaExtraId: Int,
+    canNavigateBack: Boolean = true,
     viewModel: HoraExtraEditViewModel = hiltViewModel(),
-    onBack: () -> Unit,
-    onDrawer: () -> Unit
+    onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -41,6 +42,10 @@ fun HoraExtraEditScreen(
 
     var expandedTipo by remember {
         mutableStateOf(false)
+    }
+
+    LaunchedEffect(horaExtraId) {
+        viewModel.onEvent(HoraExtraEditUiEvent.Load(horaExtraId))
     }
 
     LaunchedEffect(state.saved) {
@@ -65,29 +70,17 @@ fun HoraExtraEditScreen(
                     )
                 },
 
-                navigationIcon = {
-
-                    IconButton(
-                        onClick = onDrawer
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu"
-                        )
-                    }
-                },
-
                 actions = {
+                    if (canNavigateBack){
+                        IconButton(
+                            onClick = onBack
+                        ) {
 
-                    IconButton(
-                        onClick = onBack
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Atras"
-                        )
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Atras"
+                            )
+                        }
                     }
                 }
             )

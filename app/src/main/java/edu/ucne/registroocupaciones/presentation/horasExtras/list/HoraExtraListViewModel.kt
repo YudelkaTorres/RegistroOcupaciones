@@ -34,6 +34,7 @@ class HoraExtraListViewModel @Inject constructor(
             HoraExtraListUiEvent.ClearMessage -> _state.update { it.copy(message = null) }
             HoraExtraListUiEvent.CreateNew -> _state.update { it.copy(navigateToCreate = true) }
             is HoraExtraListUiEvent.Edit -> _state.update { it.copy(navigateToEditId = event.id) }
+            HoraExtraListUiEvent.ClearNavigation -> _state.update { it.copy(navigateToEditId = null, navigateToCreate = false) }
         }
     }
 

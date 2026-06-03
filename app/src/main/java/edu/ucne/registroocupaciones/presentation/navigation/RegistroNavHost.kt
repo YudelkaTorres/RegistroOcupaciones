@@ -1,128 +1,73 @@
 package edu.ucne.registroocupaciones.presentation.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Work
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.material3.rememberDrawerState
-import androidx.compose.material3.DrawerValue
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import edu.ucne.registroocupaciones.presentation.ocupaciones.edit.OcupacionEditScreen
-import edu.ucne.registroocupaciones.presentation.ocupaciones.list.OcupacionListScreen
-import edu.ucne.registroocupaciones.presentation.empleados.edit.EmpleadoEditScreen
-import edu.ucne.registroocupaciones.presentation.empleados.list.EmpleadoListScreen
-import edu.ucne.registroocupaciones.presentation.horasExtras.edit.HoraExtraEditScreen
-import edu.ucne.registroocupaciones.presentation.horasExtras.list.HoraExtraListScreen
-import kotlinx.coroutines.launch
+import androidx.navigation.compose.currentBackStackEntryAsState
+import edu.ucne.registroocupaciones.presentation.ocupaciones.adaptive.OcupacionAdaptiveScreen
+import edu.ucne.registroocupaciones.presentation.empleados.adaptive.EmpleadoAdaptiveScreen
+import edu.ucne.registroocupaciones.presentation.horasExtras.adaptive.HoraExtraAdaptiveScreen
 
 @Composable
 fun RegistroNavHost(
     navHostController: NavHostController
 ) {
 
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination?.route
 
-    DrawerMenu(
-        drawerState = drawerState,
-        navHostController = navHostController
+    NavigationSuiteScaffold(
+        navigationSuiteItems = {
+            item(
+                icon = { Icon(Icons.Default.Work, contentDescription = "Ocupaciones") },
+                label = { Text("Ocupaciones") },
+
+                selected = currentDestination?.contains("OcupacionList") == true,
+                onClick = { navHostController.navigate(Screen.OcupacionList) }
+            )
+            item(
+                icon = { Icon(Icons.Default.People, contentDescription = "Empleados") },
+                label = { Text("Empleados") },
+                selected = currentDestination?.contains("EmpleadoList") == true,
+                onClick = { navHostController.navigate(Screen.EmpleadoList) }
+            )
+            item(
+                icon = { Icon(Icons.Default.Schedule, contentDescription = "Horas Extras") },
+                label = { Text("Horas Extras") },
+                selected = currentDestination?.contains("HoraExtraList") == true,
+                onClick = { navHostController.navigate(Screen.HoraExtraList) }
+            )
+        }
     ) {
+
         NavHost(
             navController = navHostController,
             startDestination = Screen.OcupacionList
         ) {
             composable<Screen.OcupacionList> {
-
-                OcupacionListScreen(
-                    onDrawer = {
-                        scope.launch { drawerState.open() }
-                    },
-                    goToOcupacion = { id ->
-                        navHostController.navigate(Screen.OcupacionEdit(id))
-                    },
-                    createOcupacion = {
-                        navHostController.navigate(Screen.OcupacionEdit(0))
-                    }
-                )
-            }
-
-            composable<Screen.OcupacionEdit> { backStackEntry ->
-
-                val args = backStackEntry.toRoute<Screen.OcupacionEdit>()
-
-                OcupacionEditScreen(
-                    ocupacionId = args.ocupacionId,
-                    goBack = {
-                        navHostController.navigateUp()
-                    },
-                    onDrawer = {
-                        scope.launch { drawerState.open() }
-                    }
+                OcupacionAdaptiveScreen(
+                    onDrawer = {}
                 )
             }
 
             composable<Screen.EmpleadoList> {
-
-                EmpleadoListScreen(
-                    onDrawer = {
-                        scope.launch { drawerState.open() }
-                    },
-                    onAddEmpleado = {
-                        navHostController.navigate(Screen.EmpleadoEdit(0))
-                    },
-                    onNavigateToEdit = { id ->
-                        navHostController.navigate(Screen.EmpleadoEdit(id))
-                    }
-                )
-            }
-
-            composable<Screen.EmpleadoEdit> { backStackEntry ->
-
-                val args = backStackEntry.toRoute<Screen.EmpleadoEdit>()
-
-                EmpleadoEditScreen(
-                    empleadoId = args.empleadoId,
-                    goBack = {
-                        navHostController.navigateUp()
-                    },
-                    onDrawer = {
-                        scope.launch { drawerState.open() }
-                    }
+                EmpleadoAdaptiveScreen(
+                    onDrawer = {}
                 )
             }
 
             composable<Screen.HoraExtraList> {
-
-                HoraExtraListScreen(
-                    onDrawer = {
-                        scope.launch { drawerState.open() }
-                    },
-                    onAddHoraExtra = {
-                        navHostController.navigate(
-                            Screen.HoraExtraEdit()
-                        )
-                    },
-                    onNavigateToEdit = { id ->
-                        navHostController.navigate(
-                            Screen.HoraExtraEdit(id)
-                        )
-                    }
-                )
-            }
-
-            composable<Screen.HoraExtraEdit> {
-
-                HoraExtraEditScreen(
-                    onBack = {
-                        navHostController.navigate(Screen.HoraExtraList)
-                    },
-
-                    onDrawer = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    }
+                HoraExtraAdaptiveScreen(
+                    onDrawer = {}
                 )
             }
         }
