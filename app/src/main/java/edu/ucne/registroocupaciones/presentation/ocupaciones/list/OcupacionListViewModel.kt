@@ -32,6 +32,7 @@ class OcupacionListViewModel @Inject constructor(
             OcupacionListUiEvent.CreateNew -> _state.update { it.copy(navigateToCreate = true) }
             is OcupacionListUiEvent.Edit -> _state.update { it.copy(navigateToEditId = event.id) }
             is OcupacionListUiEvent.ShowMessage -> _state.update { it.copy(message = event.message) }
+            OcupacionListUiEvent.ClearNavigation -> _state.update { it.copy(navigateToEditId = null, navigateToCreate = false) }
         }
     }
 

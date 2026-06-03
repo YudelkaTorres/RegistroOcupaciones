@@ -31,12 +31,14 @@ fun HoraExtraListScreen(
     LaunchedEffect(state.navigateToCreate) {
         if (state.navigateToCreate) {
             onAddHoraExtra()
+            viewModel.onEvent(HoraExtraListUiEvent.ClearNavigation)
         }
     }
 
     LaunchedEffect(state.navigateToEditId) {
         state.navigateToEditId?.let { id ->
             onNavigateToEdit(id)
+            viewModel.onEvent(HoraExtraListUiEvent.ClearNavigation)
         }
     }
 
@@ -68,12 +70,7 @@ fun HoraExtraListBody(
 
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Horas Extras") },
-                navigationIcon = {
-                    IconButton(onClick = onDrawer) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                }
+                title = { Text("Horas Extras") }
             )
         },
 

@@ -34,12 +34,7 @@ class HoraExtraEditViewModel @Inject constructor(
     private val deleteHoraExtraUseCase: DeleteHoraExtraUseCase,
     private val getEmpleadoUseCase: GetEmpleadoUseCase,
     private val observeEmpleadoUseCase: ObserveEmpleadoUseCase,
-    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val routeArgs = savedStateHandle.toRoute<Screen.HoraExtraEdit>()
-
-    private val horaExtraId: Int =
-        routeArgs.horaExtraId
 
     private val _state =
         MutableStateFlow(HoraExtraEditUiState())
@@ -55,7 +50,6 @@ class HoraExtraEditViewModel @Inject constructor(
 
     init {
         loadEmpleados()
-        loadHoraExtra(horaExtraId)
     }
 
     fun onEvent(event: HoraExtraEditUiEvent) {
@@ -131,7 +125,8 @@ class HoraExtraEditViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isNew = true,
-                    horaExtraId = null
+                    horaExtraId = null,
+                    saved = false
                 )
             }
 
@@ -149,6 +144,7 @@ class HoraExtraEditViewModel @Inject constructor(
 
                     it.copy(
                         isNew = false,
+                        saved = false,
                         horaExtraId = horaExtra.horaExtraId,
                         empleadoId = horaExtra.empleadoId,
                         horasTrabajadas =
@@ -168,7 +164,7 @@ class HoraExtraEditViewModel @Inject constructor(
             } else {
 
                 _state.update {
-                    it.copy(isNew = true)
+                    it.copy(isNew = true, saved = false)
                 }
             }
         }
