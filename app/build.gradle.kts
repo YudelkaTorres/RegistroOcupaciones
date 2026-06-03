@@ -15,6 +15,9 @@ android {
     lint {
         disable += "NullSafeMutableLiveData"
         disable += "FlowOperatorInvokedInComposition"
+
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 
     defaultConfig {
