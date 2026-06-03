@@ -55,12 +55,7 @@ fun EmpleadoListScreen(
 
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Lista de empleados") },
-                navigationIcon = {
-                    IconButton(onClick = onDrawer) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                }
+                title = { Text("Lista de empleados") }
             )
         },
 
@@ -78,7 +73,6 @@ fun EmpleadoListScreen(
         Box(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxSize()
         ) {
 
             when {

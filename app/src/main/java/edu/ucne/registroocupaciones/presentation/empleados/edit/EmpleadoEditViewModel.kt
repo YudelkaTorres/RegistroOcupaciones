@@ -82,7 +82,18 @@ class EmpleadoEditViewModel @Inject constructor(
     private fun onLoad(id: Int?) {
 
         if (id == null || id == 0) {
-            _state.update { it.copy(isNew = true) }
+            _state.update {
+                it.copy(
+                    isNew = true,
+                    empleadoId = null,
+                    nombres = "",
+                    sexo = "",
+                    sueldo = "",
+                    fechaIngreso = "",
+                    saved = false,
+                    deleted = false
+                )
+            }
             return
         }
 
@@ -90,15 +101,25 @@ class EmpleadoEditViewModel @Inject constructor(
 
             val empleado = getEmpleadoUseCase(id)
 
-            empleado?.let {
+            if (empleado != null) {
                 _state.update { state ->
                     state.copy(
-                        empleadoId = it.empleadoId,
-                        fechaIngreso = it.fechaIngreso,
-                        nombres = it.nombres,
-                        sexo = it.sexo,
-                        sueldo = it.sueldo.toString(),
-                        isNew = false
+                        empleadoId = empleado.empleadoId,
+                        fechaIngreso = empleado.fechaIngreso,
+                        nombres = empleado.nombres,
+                        sexo = empleado.sexo,
+                        sueldo = empleado.sueldo.toString(),
+                        isNew = false,
+                        saved = false,
+                        deleted = false
+                    )
+                }
+            } else {
+                _state.update {
+                    it.copy(
+                        isNew = true,
+                        saved = false,
+                        deleted = false
                     )
                 }
             }

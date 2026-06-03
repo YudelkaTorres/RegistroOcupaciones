@@ -20,8 +20,9 @@ import java.util.*
 @Composable
 fun EmpleadoEditScreen(
     empleadoId: Int?,
+    canNavigateBack: Boolean = true,
     goBack: () -> Unit,
-    onDrawer: () -> Unit
+    modifier: Modifier = Modifier
 ) {
 
     val viewModel: EmpleadoEditViewModel = hiltViewModel()
@@ -33,8 +34,8 @@ fun EmpleadoEditScreen(
         )
     }
 
-    if (uiState.saved || uiState.deleted) {
-        LaunchedEffect(Unit) {
+    LaunchedEffect(uiState.saved, uiState.deleted) {
+        if (uiState.saved || uiState.deleted) {
             goBack()
         }
     }
@@ -94,14 +95,11 @@ fun EmpleadoEditScreen(
                             "Editar Empleado"
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = onDrawer) {
-                        Icon(Icons.Default.Menu, null)
-                    }
-                },
                 actions = {
-                    IconButton(onClick = goBack) {
-                        Icon(Icons.Default.ArrowBack, null)
+                    if (canNavigateBack){
+                        IconButton(onClick = goBack) {
+                            Icon(Icons.Default.ArrowBack, null)
+                        }
                     }
                 }
             )
